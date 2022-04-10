@@ -21,16 +21,22 @@ class FirebaseController extends CustomController
 
     public function index()
     {
-        $SERVER_KEY = 'AAAABjhw5Jk:APA91bHWdTCXx05ijYKH-QBsG6r2TlMalD51qxsUqU2u-jz1ry5xrWMneXlOU7X5xmRe4GCrcXeP4k6WuVu_YLqIbfYEx_1UiQMGJCEOBfEXqLUjg-6JTbGw_3ubV4nxlJvLYa9lRjUy';
-        $to = 'cbgDY-Z82g7wkxLx-CKG90:APA91bEL9L06icPSxtxRnejt-V1UzcOceI7Hhc71jOrk7RyCZWoor3o9WfLWemCu1XvDbpJB00cKdnfe_3ybj9sKAE_hWpgVXmdtiaQWSZo4qmqTo95r14aDk1RMyDCeQmm8iXvI-aXh';
+//        $SERVER_KEY = 'AAAABjhw5Jk:APA91bHWdTCXx05ijYKH-QBsG6r2TlMalD51qxsUqU2u-jz1ry5xrWMneXlOU7X5xmRe4GCrcXeP4k6WuVu_YLqIbfYEx_1UiQMGJCEOBfEXqLUjg-6JTbGw_3ubV4nxlJvLYa9lRjUy';
+        $to = 'f1sZWCMYD6nj2cx34Uvuk8:APA91bEf_eRaKgV1bzoAXntRSEgjWmQkXZ2gh9qw_8X8qvjT1VhYWHasnu0tKpKHL658f5vkjg7eHbOkL7yUejTchnGRnf9LIRY-XS0eF-PLgLj4qW8TS9bbdXnWrF20YOoyiTskA-Th';
+        $data['title'] = "Pesanan Baru";
+        $data['body'] = "Mendapatkan Pesanan Baru";
         $message = CloudMessage::fromArray([
             'token' => $to,
-            'notification' => [
-                'title' => 'Test',
-                'body' => 'Cek'
+            'data'  => $data,
+            'webpush' => [
+                'headers' => [
+                    'Urgency' => 'normal',
+                ],
             ],
+
         ]);
 
         $this->messaging->send($message);
+        return $this->jsonResponse("oke", 200);
     }
 }

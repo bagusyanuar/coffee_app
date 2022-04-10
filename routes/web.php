@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::match(['post', 'get'],'/', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index']);
+Route::get('/fb', [\App\Http\Controllers\FirebaseController::class, 'index']);
 
 Route::group(['prefix' => 'pengguna'], function (){
     Route::get('/', [\App\Http\Controllers\UserController::class, 'index']);
