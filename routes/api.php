@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::group(['prefix' => 'menu'], function (){
+Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+
+Route::group(['prefix' => 'menu'], function () {
     Route::get('/', [\App\Http\Controllers\Api\MenuController::class, 'index']);
+});
+
+Route::group(['prefix' => 'cart'], function () {
+    Route::post('/', [\App\Http\Controllers\Api\CartController::class, 'add_to_cart']);
 });
