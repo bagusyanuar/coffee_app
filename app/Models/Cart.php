@@ -16,4 +16,9 @@ class Cart extends Model
         'deskripsi',
         'transaction_id'
     ];
+
+    public function menu()
+    {
+        return $this->belongsTo(Barang::class, 'barang_id');
+    }
 }

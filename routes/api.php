@@ -25,5 +25,11 @@ Route::group(['prefix' => 'menu'], function () {
 });
 
 Route::group(['prefix' => 'cart'], function () {
-    Route::post('/', [\App\Http\Controllers\Api\CartController::class, 'add_to_cart']);
+    Route::match(['get', 'post'], '/', [\App\Http\Controllers\Api\CartController::class, 'cart']);
+    Route::post('/checkout', [\App\Http\Controllers\Api\CartController::class, 'checkout']);
+});
+
+Route::group(['prefix' => 'transaction'], function (){
+    Route::get('/', [\App\Http\Controllers\Api\TransactionController::class, 'index']);
+    Route::get('/{id}', [\App\Http\Controllers\Api\TransactionController::class, 'get_transaction_by_id']);
 });

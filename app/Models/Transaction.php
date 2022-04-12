@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'tanggal',
+        'customer',
+        'sub_total',
+        'diskon',
+        'total'
+    ];
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class, 'transaction_id');
+    }
 }
