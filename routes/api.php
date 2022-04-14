@@ -24,6 +24,10 @@ Route::group(['prefix' => 'menu'], function () {
     Route::get('/', [\App\Http\Controllers\Api\MenuController::class, 'index']);
 });
 
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('/', [\App\Http\Controllers\Api\CategoryController::class, 'index']);
+});
+
 Route::group(['prefix' => 'cart'], function () {
     Route::match(['get', 'post'], '/', [\App\Http\Controllers\Api\CartController::class, 'cart']);
     Route::post('/checkout', [\App\Http\Controllers\Api\CartController::class, 'checkout']);
