@@ -22,6 +22,8 @@ Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']
 
 Route::group(['prefix' => 'menu'], function () {
     Route::get('/', [\App\Http\Controllers\Api\MenuController::class, 'index']);
+    Route::get('/detail/{id}', [\App\Http\Controllers\Api\MenuController::class, 'get_menu_by_id']);
+    Route::get('/category/{id}', [\App\Http\Controllers\Api\MenuController::class, 'get_menu_by_category_id']);
 });
 
 Route::group(['prefix' => 'categories'], function () {

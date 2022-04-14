@@ -20,8 +20,32 @@ class MenuController extends CustomController
         try {
             $data = Barang::all();
             return $this->jsonResponse("success", 200, $data);
-        }catch (\Exception $e) {
-            return $this->jsonResponse('failed', 500);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('failed ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function get_menu_by_id($id)
+    {
+        try {
+            $data = Barang::with('category')
+                ->where('id', '=', $id)
+                ->first();
+            return $this->jsonResponse("success", 200, $data);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('failed ' . $e->getMessage(), 500);
+        }
+    }
+
+    public function get_menu_by_category_id($id)
+    {
+        try {
+            $data = Barang::with('category')
+                ->where('category_id', '=', $id)
+                ->get();
+            return $this->jsonResponse("success", 200, $data);
+        } catch (\Exception $e) {
+            return $this->jsonResponse('failed ' . $e->getMessage(), 500);
         }
     }
 }
