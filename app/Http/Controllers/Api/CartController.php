@@ -37,12 +37,10 @@ class CartController extends CustomController
                     ->first();
 
                 if ($cart_exist) {
-                    $qty_before = $cart_exist->qty;
-                    $qty_after = $qty + $qty_before;
-                    $total_after = $qty_after * $price;
+                    $total_after = $qty * $price;
                     $cart_exist->update([
-                        'qty' => $qty_after,
-                        'price' => $price,
+                        'qty' => $qty,
+                        'harga' => $price,
                         'total' => $total_after,
                         'deskripsi' => $description
                     ]);
