@@ -17,7 +17,9 @@ class TransactionController extends CustomController
     public function index()
     {
         try {
+            $status = $this->field('status');
             $transactions = Transaction::with('cart.menu')
+                ->where('status', '=', $status)
                 ->get();
             return $this->jsonResponse('success', 200, $transactions);
         } catch (\Exception $e) {

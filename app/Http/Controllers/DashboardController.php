@@ -16,6 +16,6 @@ class DashboardController extends CustomController
 
     public function index()
     {
-        return view('base');
+        return view('index');
     }
 }

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Kreait\Firebase\Contract\Messaging;
+use Kreait\Firebase\Messaging\CloudMessage;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
@@ -242,4 +244,20 @@ class CustomController extends Controller
         return DataTables::of($object)->addIndexColumn()->make(true);
     }
 
+    public function send_notification(Messaging $messaging, $to, $title = 'Title', $body = 'Body')
+    {
+        $data['title'] = $title;
+        $data['body'] = $body;
+        $message = CloudMessage::fromArray([
+            'token' => $to,
+            'data' => $data,
+            'webpush' => [
+                'headers' => [
+                    'Urgency' => 'normal',
+                ],
+            ],
+
+        ]);
+        $messaging->send($message);
+    }
 }

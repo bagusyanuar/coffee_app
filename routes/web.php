@@ -41,3 +41,7 @@ Route::group(['prefix' => 'menu'], function (){
     Route::get('/edit/{id}', [\App\Http\Controllers\MenuController::class, 'edit_page']);
     Route::post('/patch', [\App\Http\Controllers\MenuController::class, 'patch']);
 });
+
+Route::group(['prefix' => 'cart'], function(){
+    Route::get('/', [\App\Http\Controllers\API\CartController::class, 'cart']);
+});

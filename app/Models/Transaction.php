@@ -14,7 +14,8 @@ class Transaction extends Model
         'customer',
         'sub_total',
         'diskon',
-        'total'
+        'total',
+        'status'
     ];
 
     public function cart()

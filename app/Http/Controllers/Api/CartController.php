@@ -10,12 +10,16 @@ use App\Models\Cart;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Kreait\Firebase\Contract\Messaging;
 
 class CartController extends CustomController
 {
-    public function __construct()
+    private Messaging $messaging;
+
+    public function __construct(Messaging $messaging)
     {
         parent::__construct();
+        $this->messaging = $messaging;
     }
 
     public function cart()
@@ -56,6 +60,8 @@ class CartController extends CustomController
                     ];
                     Cart::create($data);
                 }
+                $to = 'f1sZWCMYD6nj2cx34Uvuk8:APA91bEf_eRaKgV1bzoAXntRSEgjWmQkXZ2gh9qw_8X8qvjT1VhYWHasnu0tKpKHL658f5vkjg7eHbOkL7yUejTchnGRnf9LIRY-XS0eF-PLgLj4qW8TS9bbdXnWrF20YOoyiTskA-Th';
+                $this->send_notification($this->messaging, $to, 'Pesananan Baru', "Pesanan Baru Datang");
                 return $this->jsonResponse('success', 200);
             }
             $carts = Cart::with('menu')
@@ -79,12 +85,13 @@ class CartController extends CustomController
             $carts = Cart::whereNull('transaction_id')->get();
             $sub_total = $carts->sum('total');
             $data = [
-                'user_id' => 7,
+                'user_id' => 3,
                 'tanggal' => $tanggal,
                 'customer' => $customer,
                 'sub_total' => $sub_total,
                 'diskon' => $discount,
-                'total' => $sub_total - $discount
+                'total' => $sub_total - $discount,
+                'status' => 0,
             ];
             $transaction = Transaction::create($data);
             foreach ($carts as $cart) {

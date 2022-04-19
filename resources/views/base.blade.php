@@ -85,10 +85,18 @@
         return  token;
     }
 
+    async function getCartList() {
+        try {
+            let response = await $.get('/cart');
+            console.log(response);
+        }catch (e) {
+            console.log(e);
+        }
+    }
     var messaging;
     var db;
     var createdAt;
-    if ('serviceWorker' in navigator) {
+    // if ('serviceWorker' in navigator) {
         if (!firebase.apps.length) {
             var firebaseConfig = {
                 apiKey: "AIzaSyCsyzivLelJuTTP35aLoocq94hNCWwq0ZU",
@@ -114,7 +122,7 @@
                     $('#toast-message').html(body);
                     $('.toast').removeClass('d-none');
                     $('.toast').toast('show');
-
+                    getCartList()
                 });
 
             }else{
@@ -122,9 +130,9 @@
             }
         }
         console.log('in sw');
-    }else {
-        console.log('not in sw')
-    }
+    // }else {
+    //     console.log('not in sw')
+    // }
 
     navigator.serviceWorker.register('/firebase-messaging-sw.js');
 
