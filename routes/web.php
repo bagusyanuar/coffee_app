@@ -43,5 +43,10 @@ Route::group(['prefix' => 'menu'], function (){
 });
 
 Route::group(['prefix' => 'cart'], function(){
-    Route::get('/', [\App\Http\Controllers\API\CartController::class, 'cart']);
+    Route::get('/', [\App\Http\Controllers\CartController::class, 'index']);
+});
+
+Route::group(['prefix' => 'transaction'], function(){
+    Route::post('/', [\App\Http\Controllers\TransactionController::class, 'confirm']);
+    Route::get('/data', [\App\Http\Controllers\TransactionController::class, 'index']);
 });

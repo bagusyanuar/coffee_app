@@ -19,7 +19,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Sistem Pemesanan Coffee Shop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -27,18 +28,21 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/pengguna">Pengguna</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                        Master Data
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/kategori">Kategori</a>
-                        <a class="dropdown-item" href="/menu">Menu</a>
-                    </div>
-                </li>
+                @if(auth()->user()->role == 'admin')
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pengguna">Pengguna</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-expanded="false">
+                            Master Data
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/kategori">Kategori</a>
+                            <a class="dropdown-item" href="/menu">Menu</a>
+                        </div>
+                    </li>
+                @endif
             </ul>
             <div class="d-flex">
                 <a href="/logout" class="btn btn-outline-light">Keluar</a>
@@ -78,58 +82,59 @@
         const messaging = firebase.messaging();
         try {
             token = await messaging.getToken();
-        }catch(e) {
+        } catch (e) {
             console.log(e);
         }
         console.log(token);
-        return  token;
+        return token;
     }
 
     async function getCartList() {
         try {
             let response = await $.get('/cart');
             console.log(response);
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
     }
+
     var messaging;
     var db;
     var createdAt;
     // if ('serviceWorker' in navigator) {
-        if (!firebase.apps.length) {
-            var firebaseConfig = {
-                apiKey: "AIzaSyCsyzivLelJuTTP35aLoocq94hNCWwq0ZU",
-                authDomain: "johnny-app-9d4c3.firebaseapp.com",
-                projectId: "johnny-app-9d4c3",
-                storageBucket: "johnny-app-9d4c3.appspot.com",
-                messagingSenderId: "26716726425",
-                appId: "1:26716726425:web:320a3001ca5663dda74408"
-            };
-            firebase.initializeApp(firebaseConfig);
-            if(firebase.messaging.isSupported()){
-                messaging = firebase.messaging();
-                messaging.usePublicVapidKey('BBMqaivadfJy3Eo1_2p-iZqck2VG44cT5PMCI5Aa2vvEwQNccRR9AW8a99KkI70dG50FM3A_KVcfwqntsSYJ7lI');
-                db = firebase.firestore();
-                createdAt = firebase.firestore.Timestamp.fromDate(new Date());
-                console.log('Browser Support for Messaging');
-                messaging.onMessage((payload) => {
-                    console.log('Message received. ', payload);
-                    let title = payload['data']['title'];
-                    let body = payload['data']['body'];
+    if (!firebase.apps.length) {
+        var firebaseConfig = {
+            apiKey: "AIzaSyCsyzivLelJuTTP35aLoocq94hNCWwq0ZU",
+            authDomain: "johnny-app-9d4c3.firebaseapp.com",
+            projectId: "johnny-app-9d4c3",
+            storageBucket: "johnny-app-9d4c3.appspot.com",
+            messagingSenderId: "26716726425",
+            appId: "1:26716726425:web:320a3001ca5663dda74408"
+        };
+        firebase.initializeApp(firebaseConfig);
+        if (firebase.messaging.isSupported()) {
+            messaging = firebase.messaging();
+            messaging.usePublicVapidKey('BBMqaivadfJy3Eo1_2p-iZqck2VG44cT5PMCI5Aa2vvEwQNccRR9AW8a99KkI70dG50FM3A_KVcfwqntsSYJ7lI');
+            db = firebase.firestore();
+            createdAt = firebase.firestore.Timestamp.fromDate(new Date());
+            console.log('Browser Support for Messaging');
+            messaging.onMessage((payload) => {
+                console.log('Message received. ', payload);
+                let title = payload['data']['title'];
+                let body = payload['data']['body'];
 
-                    $('#toast-title').html(title);
-                    $('#toast-message').html(body);
-                    $('.toast').removeClass('d-none');
-                    $('.toast').toast('show');
-                    getCartList()
-                });
+                $('#toast-title').html(title);
+                $('#toast-message').html(body);
+                $('.toast').removeClass('d-none');
+                $('.toast').toast('show');
+                getCartList()
+            });
 
-            }else{
-                console.log('Your Browser Not Supported Messaging')
-            }
+        } else {
+            console.log('Your Browser Not Supported Messaging')
         }
-        console.log('in sw');
+    }
+    console.log('in sw');
     // }else {
     //     console.log('not in sw')
     // }
