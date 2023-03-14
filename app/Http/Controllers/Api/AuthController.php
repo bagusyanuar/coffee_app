@@ -11,7 +11,7 @@ class AuthController extends CustomController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function login()
